@@ -23,7 +23,7 @@ class Cage
   end
 
   def check_game_over 
-    return 'win' if check_cage_horizontal? || check_cage_vertical? || check_cage_left_cross? || check_cage_right_cross?
+    return 'win' if check_cage_horizontal? || check_cage_vertical? || check_cage_cross?
     return 'draw' if check_cage_full?
     'continue'
   end
@@ -85,94 +85,43 @@ class Cage
     return false
   end
 
-  def check_cage_left_cross?
+  def check_cage_cross?
     @columns.each.with_index do |row, row_idx|
       row.each.with_index do |grid, col_idx|
-        return true if left_lower_cross?(grid, row_idx, col_idx)
-        return true if left_upper_cross?(grid, row_idx, col_idx)
+        return true if cross?(grid, row_idx, col_idx, 'lower_right')
+        return true if cross?(grid, row_idx, col_idx, 'lower_left')
+        return true if cross?(grid, row_idx, col_idx, 'upper_right')
+        return true if cross?(grid, row_idx, col_idx, 'upper_left')
       end
     end
     return false
   end
 
-  def check_cage_right_cross?
-    @columns.each.with_index do |row, row_idx|
-      row.each.with_index do |grid, col_idx|
-        return true if right_upper_cross?(grid, row_idx, col_idx)
-        return true if right_lower_cross?(grid, row_idx, col_idx)
-      end
-    end
-    return false
-  end
-
-  def right_upper_cross? grid, row_idx, col_idx
-    up_col_idx = col_idx
-    up_row_idx = row_idx
+  def cross? grid, row_idx, col_idx, direction
+    cross_col_idx = col_idx
+    cross_row_idx = row_idx
     consecutive = 0
-    while up_col_idx >= 0 && up_col_idx <= 7 && up_row_idx >= 0 && up_row_idx <= 7
-      current = @columns[up_row_idx][up_col_idx]
+    while cross_col_idx >= 0 && cross_col_idx <= 7 && cross_row_idx >= 0 && cross_row_idx <= 7
+      current = @columns[cross_row_idx][cross_col_idx]
       if current == grid && current != nil
         consecutive+=1
       else
         break
       end
       break if consecutive == 4
-      up_row_idx-=1
-      up_col_idx+=1
-    end
-    return consecutive == 4
-  end
-
-  def right_lower_cross? grid, row_idx, col_idx
-    down_col_idx = col_idx
-    down_row_idx = row_idx
-    consecutive = 0
-    while down_col_idx >= 0 && down_col_idx <= 7 && down_row_idx >= 0 && down_row_idx <= 7
-      current = @columns[down_row_idx][down_col_idx]
-      if current == grid && current != nil
-        consecutive+=1
+      if direction == "lower_left"
+        cross_row_idx+=1
+        cross_col_idx+=1
+      elsif direction == "lower_right"
+        cross_row_idx+=1
+        cross_col_idx-=1
+      elsif direction == "upper_left"
+        cross_row_idx-=1
+        cross_col_idx-=1
       else
-        break
+        cross_row_idx-=1
+        cross_col_idx+=1
       end
-      break if consecutive == 4
-      down_row_idx+=1
-      down_col_idx-=1
-    end
-    return consecutive == 4
-  end
-
-  def left_upper_cross? grid, row_idx, col_idx
-    up_col_idx = col_idx
-    up_row_idx = row_idx
-    consecutive = 0
-    while up_col_idx >= 0 && up_col_idx <= 7 && up_row_idx >= 0 && up_row_idx <= 7
-      current = @columns[up_row_idx][up_col_idx]
-      if current == grid && current != nil
-        consecutive+=1
-      else
-        break
-      end
-      break if consecutive == 4
-      up_row_idx-=1
-      up_col_idx-=1
-    end
-    return consecutive == 4
-  end
-
-  def left_lower_cross? grid, row_idx, col_idx
-    down_col_idx = col_idx
-    down_row_idx = row_idx
-    consecutive = 0
-    while down_col_idx >= 0 && down_col_idx <= 7 && down_row_idx >= 0 && down_row_idx <= 7
-      current = @columns[down_row_idx][down_col_idx]
-      if current == grid && current != nil
-        consecutive+=1
-      else
-        break
-      end
-      break if consecutive == 4
-      down_row_idx+=1
-      down_col_idx+=1
     end
     return consecutive == 4
   end
