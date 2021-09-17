@@ -35,7 +35,7 @@ describe Player do
           [nil,nil,nil,nil,nil,nil,nil,1],
           [nil,nil,nil,nil,nil,nil,nil,1],
           [nil,nil,nil,nil,nil,nil,nil,1],
-          [nil,nil,nil,nil,nil,nil,nil,1],
+          [nil,nil,nil,nil,nil,nil,nil,1]
           ]}
           it "does not puts an error message" do
             expect(player).not_to receive(:puts).with("That column is already full. Please choose another one!")
