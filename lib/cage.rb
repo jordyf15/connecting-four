@@ -1,6 +1,7 @@
 require_relative "string"
 
 class Cage
+  attr_reader :columns
   def initialize 
     @columns = [
       [nil,nil,nil,nil,nil,nil,nil,nil],
@@ -41,6 +42,7 @@ class Cage
       puts "\n"
     end
     puts "==================="
+    puts "  1 2 3 4 5 6 7 8"
   end
 
   private
