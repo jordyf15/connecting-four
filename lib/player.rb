@@ -1,4 +1,5 @@
 class Player
+  attr_reader :name
   def initialize name, number
     @name = name
     @number = number
@@ -12,9 +13,9 @@ class Player
         return {piece: @number, column: column-1} 
       end
       if column < 1 || column >8
-        puts "Please choose a column between 1-8!"
+        puts "Please choose a column between 1-8!".red
       else
-        puts "That column is already full. Please choose another one!"
+        puts "That column is already full. Please choose another one!".red
       end
     end
   end
