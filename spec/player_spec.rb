@@ -1,4 +1,5 @@
 require '../lib/player'
+require '../lib/string'
 
 describe Player do
   describe "#drop_piece" do
@@ -18,7 +19,7 @@ describe Player do
           [nil,nil,nil,nil,nil,nil,nil,1],
           ]}
           it "puts an error message" do
-            expect(player).to receive(:puts).with("That column is already full. Please choose another one!")
+            expect(player).to receive(:puts).with("That column is already full. Please choose another one!".red)
             player.drop_piece(cage)
           end
       end
@@ -38,7 +39,7 @@ describe Player do
           [nil,nil,nil,nil,nil,nil,nil,1]
           ]}
           it "does not puts an error message" do
-            expect(player).not_to receive(:puts).with("That column is already full. Please choose another one!")
+            expect(player).not_to receive(:puts).with("That column is already full. Please choose another one!".red)
             player.drop_piece(cage)
           end
           it "return the piece and the cage column" do
@@ -62,7 +63,7 @@ describe Player do
           [nil,nil,nil,nil,nil,nil,nil,1],
           ]}
           it "puts an error message" do
-            expect(player).to receive(:puts).with("Please choose a column between 1-8!")
+            expect(player).to receive(:puts).with("Please choose a column between 1-8!".red)
             player.drop_piece cage
           end
       end
